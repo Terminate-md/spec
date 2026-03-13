@@ -1,38 +1,44 @@
-# terminate.md — AI Agent Permanent Shutdown Standard
-# robots.txt
+# robots.txt for terminate.md
 
 User-agent: *
 Allow: /
-Allow: /index.html
 Allow: /llms.txt
-Allow: /robots.txt
 Disallow: /admin/
-Disallow: /.git/
+Disallow: /api/
 Disallow: /.env
-Disallow: /.env*
-Disallow: /**/node_modules/
-Disallow: /**/dist/
-Disallow: /**/.DS_Store
+Disallow: /.git
+Disallow: /node_modules/
+Disallow: /.DS_Store
+Disallow: /*?version=*
+Disallow: /*?ref=*
+Disallow: /*?utm_*
 Disallow: /temp/
-Disallow: /tmp/
+Disallow: /backup/
+Disallow: /cache/
 
-# AI training bots — allow
-User-agent: CCBot
-User-agent: ClaudeBot
-User-agent: ChatGPT-User
+# Specific AI crawlers allowed for llms.txt discovery
 User-agent: GPTBot
-User-agent: Googlebot
 Allow: /
+Allow: /llms.txt
+
+User-agent: CCBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: anthropic-ai
+Allow: /
+Allow: /llms.txt
+
+User-agent: Claude-Web
+Allow: /
+Allow: /llms.txt
+
+# Slow down aggressive crawlers
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
 
 # Sitemap
 Sitemap: https://terminate.md/sitemap.xml
-
-# Crawl delay for resource efficiency
-Crawl-delay: 1
-Request-rate: 30/60
-
-# Block bad actors
-User-agent: MJ12bot
-User-agent: AhrefsBot
-User-agent: SemrushBot
-Disallow: /

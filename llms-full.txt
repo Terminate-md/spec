@@ -227,6 +227,29 @@ This site is part of a complete AI agent safety specification:
 - **TERMINATE.md** (https://terminate.md) — Layer 5: Permanent shutdown (this site)
 - **ENCRYPT.md** (https://encrypt.md) — Layer 6: Data security and secrets handling
 
+## Related Specifications
+
+The AI Agent Safety Stack — twelve open standards for AI agent safety, quality, and accountability:
+
+### Operational Control
+- [THROTTLE.md](https://throttle.md/llms.txt): AI agent rate and cost control — [GitHub](https://github.com/throttle-md/spec)
+- [ESCALATE.md](https://escalate.md/llms.txt): Human notification and approval protocols — [GitHub](https://github.com/escalate-md/spec)
+- [FAILSAFE.md](https://failsafe.md/llms.txt): Safe fallback to last known good state — [GitHub](https://github.com/failsafe-md/spec)
+- [KILLSWITCH.md](https://killswitch.md/llms.txt): Emergency stop for AI agents — [GitHub](https://github.com/killswitch-md/spec)
+
+### Data Security
+- [ENCRYPT.md](https://encrypt.md/llms.txt): Data classification and protection — [GitHub](https://github.com/encrypt-md/spec)
+- [ENCRYPTION.md](https://encryption.md/llms.txt): Technical encryption standards — [GitHub](https://github.com/encryption-md/spec)
+
+### Output Quality
+- [SYCOPHANCY.md](https://sycophancy.md/llms.txt): Anti-sycophancy and bias prevention — [GitHub](https://github.com/sycophancy-md/spec)
+- [COMPRESSION.md](https://compression.md/llms.txt): Context compression and coherence — [GitHub](https://github.com/compression-md/spec)
+- [COLLAPSE.md](https://collapse.md/llms.txt): Drift prevention and recovery — [GitHub](https://github.com/collapse-md/spec)
+
+### Accountability
+- [FAILURE.md](https://failure.md/llms.txt): Failure mode mapping — [GitHub](https://github.com/failure-md/spec)
+- [LEADERBOARD.md](https://leaderboard.md/llms.txt): Agent benchmarking and regression detection — [GitHub](https://github.com/leaderboard-md/spec)
+
 ---
 
 **Copyright © 2026 TERMINATE.md Project · MIT License**
