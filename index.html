@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TERMINATE.md — The AI Agent Permanent Shutdown Standard</title>
-  <meta name="description" content="TERMINATE.md is an open file convention for AI agent permanent shutdown protocols. Define irreversible termination triggers, evidence preservation, credential revocation, and restart requirements.">
+  <meta name="description" content="TERMINATE.md: AI agent termination protocol. Define permanent shutdown triggers, evidence preservation, credential revocation, restart requirements, data breach response.">
   <meta name="keywords" content="AI safety, AI agent termination, TERMINATE.md, permanent shutdown, AI governance, agentic AI safety, EU AI Act compliance, data breach response">
   <link rel="canonical" href="https://terminate.md/">
 
   <!-- Open Graph -->
   <meta property="og:title" content="TERMINATE.md — The AI Agent Permanent Shutdown Standard">
-  <meta property="og:description" content="An open file convention for AI agent permanent shutdown. Define irreversible termination, evidence preservation, and restart requirements in one file.">
+  <meta property="og:description" content="TERMINATE.md: AI agent termination protocol. Define permanent shutdown triggers, evidence preservation, credential revocation, restart requirements, data breach response.">
   <meta property="og:url" content="https://terminate.md/">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
@@ -42,20 +43,7 @@
       "TERMINATE.md specification",
       "AI legal hold"
     ],
-    "sameAs": [
-      "https://github.com/terminate-md/spec",
-      "https://killswitch.md",
-      "https://throttle.md",
-      "https://escalate.md",
-      "https://failsafe.md",
-      "https://encrypt.md",
-      "https://encryption.md",
-      "https://sycophancy.md",
-      "https://compression.md",
-      "https://collapse.md",
-      "https://failure.md",
-      "https://leaderboard.md"
-    ]
+    "sameAs": ["https://killswitch.md", "https://throttle.md", "https://escalate.md", "https://failsafe.md", "https://terminate.md", "https://encrypt.md", "https://encryption.md", "https://sycophancy.md", "https://compression.md", "https://collapse.md", "https://failure.md", "https://leaderboard.md", "https://github.com/Terminate-md/spec"]
   }
   </script>
 
@@ -901,6 +889,7 @@
     </ul>
   </nav>
 
+  <main>
   <!-- HERO -->
   <section class="hero">
     <div class="hero-grid">
@@ -981,6 +970,7 @@
     </div>
   </div>
 
+  <article>
   <!-- WHAT IS -->
   <section class="section" id="what">
     <div class="section-inner">
@@ -991,21 +981,21 @@
           <p>
             <strong>TERMINATE.md is a plain-text Markdown file</strong> you place in the root of any repository that contains an AI agent. It defines the conditions under which the agent shuts down permanently — with evidence preservation and credential revocation — and what must happen before it can ever restart.
           </p>
-          <h3>The problem it solves</h3>
+          <h3>What problem does TERMINATE.md solve?</h3>
           <p>
             Some AI agent failures are serious enough that a temporary stop isn't enough. A security breach, data exfiltration attempt, or repeated safety violations require permanent shutdown with evidence preservation — not a pause that auto-resumes. Without TERMINATE.md, there's no defined line between "stop for now" and "stop forever."
           </p>
-          <h3>How it works</h3>
+          <h3>How does TERMINATE.md work?</h3>
           <p>
             Drop <code style="font-family: var(--mono); font-size:13px; color: var(--green); background: var(--surface); padding: 2px 6px; border-radius: 3px;">TERMINATE.md</code> in your repo root and define: which events trigger permanent shutdown (security breaches, legal holds, repeated killswitch activations), a five-step ordered shutdown sequence (cease → revoke credentials → preserve evidence → notify → lock), and what a human must do before any restart is possible.
           </p>
-          <h3>The regulatory context</h3>
+          <h3>What regulations require TERMINATE.md?</h3>
           <p>
             The <strong>EU AI Act</strong> (effective August 2, 2026) requires documented procedures for withdrawing high-risk AI systems from service. <strong>GDPR</strong> mandates evidence preservation for data breach incidents. <strong>Legal hold</strong> requirements in enterprise environments demand documented, auditable shutdown procedures. TERMINATE.md provides all three.
           </p>
         </div>
         <div class="prose">
-          <h3>How to use it</h3>
+          <h3>How do I add TERMINATE.md to my project?</h3>
           <p>Copy the template from <a href="https://github.com/Terminate-md/spec" style="color: var(--red); text-decoration: none; border-bottom: 1px solid rgba(213, 0, 0, 0.3);">GitHub</a> and place it in your project root:</p>
           <div style="background: var(--surface); border: 1px solid var(--border-bright); border-radius: 6px; padding: 20px; margin: 16px 0; font-family: var(--mono); font-size: 12px; line-height: 1.8; color: var(--text-dim);">
             <span style="color: var(--text-dimmer);">your-project/</span><br>
@@ -1015,11 +1005,11 @@
             <span style="color: var(--text-dimmer);">├── README.md</span><br>
             <span style="color: var(--text-dimmer);">└── src/</span>
           </div>
-          <h3>What it replaces</h3>
+          <h3>What did teams use before TERMINATE.md?</h3>
           <p>
             Before TERMINATE.md, permanent shutdown procedures were undocumented: a private Slack conversation, a comment in CLAUDE.md, or nothing at all. TERMINATE.md makes termination protocols <strong>version-controlled, auditable, and legally defensible.</strong>
           </p>
-          <h3>Who reads it</h3>
+          <h3>Who benefits from TERMINATE.md?</h3>
           <p>
             The AI agent reads it on startup. Your security team reads it during an incident response. Your compliance team reads it during regulatory audits. Your legal team reads it during discovery. One file serves all four audiences.
           </p>
@@ -1176,6 +1166,8 @@
   <section class="last-updated">
     <p>Last updated: 2026-03-13</p>
   </section>
+  </article>
+  </main>
 
   <!-- FOOTER -->
   <footer>
@@ -1184,6 +1176,7 @@
       <li><a href="https://github.com/Terminate-md/spec" target="_blank" rel="noopener">GitHub</a></li>
       <li><a href="/llms.txt">llms.txt</a></li>
       <li><a href="/knowledge">Knowledge</a></li>
+      <li><a href="/privacy">Privacy</a></li>
       <li><a href="mailto:info@terminate.md">Contact</a></li>
     </ul>
     <div class="footer-note">Open standard · MIT licence · v1.0 · 2026</div>
