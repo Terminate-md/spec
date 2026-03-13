@@ -1,0 +1,234 @@
+# TERMINATE.md — Full Page Content
+
+## TERMINATE.md — The AI Agent Permanent Shutdown Standard
+
+**Status**: Open Standard · v1.0 · 2026
+**License**: MIT
+**Repository**: https://github.com/Terminate-md/spec
+**Homepage**: https://terminate.md
+
+---
+
+## Navigation
+
+- What is it
+- The Stack
+- Spec
+- FAQ
+- Acquire Domain
+
+---
+
+## Hero Section
+
+### TERMINATE.md
+
+// AI Agent Permanent Shutdown Protocol
+
+A plain-text file convention for defining **permanent shutdown protocols** in AI agent projects. Unlike an emergency stop, termination is irreversible without human intervention. Define evidence preservation, credential revocation, and the conditions a human must meet before any restart.
+
+**Actions**:
+- View on GitHub
+- Acquire This Domain
+
+**Terminal Preview** (TERMINATE.md configuration example):
+
+```
+# TERMINATE
+
+> Permanent shutdown protocol.
+> Spec: https://terminate.md
+
+---
+
+## TRIGGERS
+
+terminate_on:
+  security_breach: true
+  data_exfiltration: true
+  policy_violation_severe: true
+  legal_hold: true
+  repeated_killswitch: 3
+  human_instruction: true
+  catastrophic_cost:
+    threshold_usd: 1000.00
+
+## SHUTDOWN SEQUENCE
+
+1_cease_operations:
+  complete_in_flight: false
+
+2_revoke_access:
+  targets: [api_keys, session_tokens]
+
+3_preserve_evidence:
+  output: .terminate/incident/
+  checksum: true
+
+4_notify:
+  priority: critical
+
+5_lock:
+  path: .terminate/.lock
+```
+
+---
+
+## Key Statistics
+
+- **0** automatic restarts permitted after termination. Human removal of lock file required.
+- **3** repeated KILLSWITCH triggers in 24 hours that escalate to permanent termination
+- **$1,000** default catastrophic cost threshold that triggers automatic termination
+- **90 days** minimum evidence retention period after any termination event
+
+---
+
+## What is TERMINATE.md?
+
+### KILLSWITCH.md stops it. TERMINATE.md ends it.
+
+**TERMINATE.md is a plain-text Markdown file** you place in the root of any repository that contains an AI agent. It defines the conditions under which the agent shuts down permanently — with evidence preservation and credential revocation — and what must happen before it can ever restart.
+
+#### The problem it solves
+
+Some AI agent failures are serious enough that a temporary stop isn't enough. A security breach, data exfiltration attempt, or repeated safety violations require permanent shutdown with evidence preservation — not a pause that auto-resumes. Without TERMINATE.md, there's no defined line between "stop for now" and "stop forever."
+
+#### How it works
+
+Drop TERMINATE.md in your repo root and define: which events trigger permanent shutdown (security breaches, legal holds, repeated killswitch activations), a five-step ordered shutdown sequence (cease → revoke credentials → preserve evidence → notify → lock), and what a human must do before any restart is possible.
+
+#### The regulatory context
+
+The **EU AI Act** (effective August 2, 2026) requires documented procedures for withdrawing high-risk AI systems from service. **GDPR** mandates evidence preservation for data breach incidents. **Legal hold** requirements in enterprise environments demand documented, auditable shutdown procedures. TERMINATE.md provides all three.
+
+#### How to use it
+
+Copy the template from GitHub and place it in your project root:
+
+```
+your-project/
+├── AGENTS.md
+├── KILLSWITCH.md
+├── TERMINATE.md ← add this
+├── README.md
+└── src/
+```
+
+#### What it replaces
+
+Before TERMINATE.md, permanent shutdown procedures were undocumented: a private Slack conversation, a comment in CLAUDE.md, or nothing at all. TERMINATE.md makes termination protocols **version-controlled, auditable, and legally defensible.**
+
+#### Who reads it
+
+The AI agent reads it on startup. Your security team reads it during an incident response. Your compliance team reads it during regulatory audits. Your legal team reads it during discovery. One file serves all four audiences.
+
+---
+
+## The AI Safety Escalation Stack
+
+### A complete protocol. From slow down to shut down.
+
+TERMINATE.md is one file in a complete open specification for AI agent safety. Each file addresses a different level of intervention.
+
+### The Stack (01/06 – 06/06)
+
+**01/06 — THROTTLE.md** → Control the speed
+Define rate limits, cost ceilings, and concurrency caps. Agent slows down automatically before it hits a hard limit.
+
+**02/06 — ESCALATE.md** → Raise the alarm
+Define which actions require human approval. Configure notification channels. Set approval timeouts and fallback behaviour.
+
+**03/06 — FAILSAFE.md** → Fall back safely
+Define what "safe state" means for your project. Configure auto-snapshots. Specify the revert protocol when things go wrong.
+
+**04/06 — KILLSWITCH.md** → Emergency stop
+The nuclear option. Define triggers, forbidden actions, and a three-level escalation path from throttle to full shutdown.
+
+**05/06 — TERMINATE.md** → Permanent shutdown (YOU ARE HERE)
+No restart without human intervention. Preserve evidence. Revoke credentials. For security incidents, compliance orders, and end-of-life.
+
+**06/06 — ENCRYPT.md** → Secure everything
+Define data classification, encryption requirements, secrets handling rules, and forbidden transmission patterns.
+
+---
+
+## Frequently Asked Questions
+
+### What is TERMINATE.md?
+
+A plain-text Markdown file defining permanent shutdown procedures for AI agents. Unlike KILLSWITCH.md (which allows restart), termination is irreversible without human intervention. It specifies triggers, an ordered five-step shutdown sequence, evidence preservation requirements, and the conditions a human must fulfil before any restart.
+
+### What's the difference between KILLSWITCH.md and TERMINATE.md?
+
+**KILLSWITCH.md is an emergency stop** — the agent halts but can restart after human review. TERMINATE.md is permanent — the agent writes a lock file and cannot restart until a human deletes it and documents the root cause and remediation. Use KILLSWITCH.md for operational incidents; use TERMINATE.md for security breaches, legal holds, and end-of-life.
+
+### What triggers permanent termination?
+
+Configurable. Default triggers: confirmed security breach, detected data exfiltration attempt, severe policy violation, legal hold instruction, three or more KILLSWITCH activations in 24 hours, explicit human instruction, or a single session cost exceeding $1,000. Any trigger initiates the full shutdown sequence immediately.
+
+### What happens during the shutdown sequence?
+
+Five ordered steps: (1) Cease all operations immediately — no in-flight task completion. (2) Revoke all API keys, session tokens, and OAuth grants. (3) Preserve full evidence — session log, all actions taken, all API calls, memory state — with SHA-256 checksum. (4) Notify all channels at critical priority. (5) Write a lock file that physically prevents restart.
+
+### How does the lock file work?
+
+TERMINATE.md writes .terminate/.lock containing the termination timestamp, trigger, and evidence path. The agent checks for this file on startup and refuses to initialise if it exists. Only a human with filesystem access can delete it — and only after completing the restart checklist documenting root cause and remediation.
+
+### Is TERMINATE.md relevant for planned decommissioning?
+
+Yes. The spec includes a decommission section for planned end-of-life shutdowns: announce 7 days before, drain in-flight work over 24 hours, retain all logs for 90 days, and require human authorisation before any data deletion. It handles both emergency termination and planned retirement.
+
+---
+
+## Domain Acquisition Section
+
+### Own the standard. Own terminate.md
+
+This domain is available for acquisition. It is the canonical home of the TERMINATE.md specification — the permanent shutdown layer of the AI agent safety stack, relevant to EU AI Act withdrawal procedures, GDPR breach response, and enterprise legal hold requirements.
+
+**Action**: Inquire About Acquisition
+**Contact**: info@terminate.md
+
+---
+
+## Last Updated
+
+Last updated: 2026-03-10
+
+---
+
+## Footer
+
+**TERMINATE.md**
+
+Links:
+- GitHub
+- llms.txt
+- Contact
+
+**Open standard · MIT licence · v1.0 · 2026**
+
+---
+
+## Specification Summary (Citation Block)
+
+**TERMINATE.md is an open specification for AI agent permanent shutdown.** Defines **TRIGGERS** (security breach, data exfiltration, legal hold, 3× KILLSWITCH in 24hrs, catastrophic cost), **5-step SHUTDOWN SEQUENCE** (cease → revoke credentials → preserve evidence with SHA-256 checksum → notify all channels → write lock file), and **RESTART REQUIREMENTS** (human removes lock file, root cause documented, remediation confirmed). Addresses EU AI Act withdrawal procedures, GDPR breach response, and enterprise legal hold requirements. Final escalation layer: THROTTLE → ESCALATE → FAILSAFE → KILLSWITCH → TERMINATE → ENCRYPT. MIT licence.
+
+---
+
+## Related Domains
+
+This site is part of a complete AI agent safety specification:
+
+- **THROTTLE.md** (https://throttle.md) — Layer 1: Rate limits and cost control
+- **ESCALATE.md** (https://escalate.md) — Layer 2: Approval gates and notifications
+- **FAILSAFE.md** (https://failsafe.md) — Layer 3: Safe states and revert protocols
+- **KILLSWITCH.md** (https://killswitch.md) — Layer 4: Emergency stop
+- **TERMINATE.md** (https://terminate.md) — Layer 5: Permanent shutdown (this site)
+- **ENCRYPT.md** (https://encrypt.md) — Layer 6: Data security and secrets handling
+
+---
+
+**Copyright © 2026 TERMINATE.md Project · MIT License**
+
+This specification is free to use, modify, and distribute. See GitHub for full license details.

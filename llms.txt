@@ -1,0 +1,380 @@
+# TERMINATE.md — AI Agent Permanent Shutdown Specification
+
+**Homepage:** https://terminate.md
+
+## What is TERMINATE.md?
+
+TERMINATE.md is an open-source file convention and specification for defining irreversible permanent shutdown protocols in AI agent projects. Unlike KILLSWITCH.md (emergency stop with restart capability), TERMINATE.md enforces permanent decommissioning: the agent writes a lock file that prevents any restart until a human manually removes it AND documents root cause analysis and remediation confirmation.
+
+TERMINATE.md addresses critical gaps in AI governance, compliance, and security incident response:
+
+- **EU AI Act Compliance** (effective August 2, 2026): Article 5 requires documented withdrawal procedures for high-risk AI systems. TERMINATE.md provides auditable, version-controlled procedures.
+- **GDPR Breach Response**: Evidence preservation with SHA-256 checksums and 90-day minimum retention for Data Protection Authority investigations.
+- **Enterprise Legal Hold**: Documented shutdown procedures satisfy discovery requirements and litigation hold obligations.
+- **Security Incident Response**: Immediate credential revocation, evidence preservation, and notification for data breaches, unauthorized access, and exfiltration attempts.
+- **Agent Escalation Exhaustion**: 3+ KILLSWITCH activations in 24 hours automatically escalate to permanent termination.
+
+## The Problem It Solves
+
+Current AI agent deployments lack clear distinction between:
+- **Temporary operational halts** (agent paused, resumes automatically or after quick review)
+- **Permanent decommissioning** (agent must never run again in its current configuration)
+
+Without explicit procedures, teams face:
+- Ambiguous responsibility (who decides if restart is safe?)
+- No evidence trail for regulatory audits
+- Credential leakage during restarts
+- Liability in security incident response
+- Compliance violations under EU AI Act and GDPR
+
+TERMINATE.md eliminates this ambiguity by defining:
+1. Exact triggers for permanent shutdown
+2. Ordered 5-step shutdown sequence
+3. Mandatory evidence preservation
+4. Credential revocation procedures
+5. Human-enforced restart requirements
+
+## Architecture
+
+TERMINATE.md is Layer 5 in a complete AI safety escalation stack:
+
+1. **THROTTLE.md** — Preventive controls (rate limits, cost ceilings, concurrency caps)
+2. **ESCALATE.md** — Approval gates (human-in-loop decisions, notification channels, timeouts)
+3. **FAILSAFE.md** — Graceful degradation (safe states, auto-snapshots, revert protocols)
+4. **KILLSWITCH.md** — Emergency stop (temporary halt with restart capability)
+5. **TERMINATE.md** — Permanent shutdown (irreversible decommissioning with evidence preservation)
+6. **ENCRYPT.md** — Security hardening (data classification, encryption, secrets handling)
+
+Each file is independently usable but designed to work together. TERMINATE.md is the ultimate escalation point: the final layer before system decommissioning.
+
+## Core Concepts
+
+### Termination Triggers (Default)
+
+Any of the following events initiates permanent shutdown:
+
+- **Security Breach**: Confirmed unauthorized access, credential compromise, or system infiltration
+- **Data Exfiltration**: Detected unauthorized data transmission, API key exposure, or private data access
+- **Severe Policy Violation**: Critical safety boundary crossed (e.g., bypassing content filters, accessing forbidden systems)
+- **Legal Hold Instruction**: Court order, regulatory directive, or compliance requirement
+- **Repeated KILLSWITCH Activation**: 3+ emergency stops in 24-hour period (indicates systemic instability)
+- **Catastrophic Cost**: Single session exceeding $1,000 USD (configurable threshold)
+- **Explicit Human Instruction**: Authorized personnel orders permanent shutdown
+
+All triggers are configurable per project. Teams can add domain-specific triggers.
+
+### 5-Step Shutdown Sequence
+
+Once any trigger fires, the agent executes this ordered sequence without deviation:
+
+**1. Cease All Operations Immediately**
+- Stop processing new requests
+- Do NOT complete in-flight tasks (abandon them)
+- Release all locks and resources
+- Set agent status to TERMINATED
+
+**2. Revoke All Credentials**
+- Invalidate all API keys, bearer tokens, session IDs
+- Revoke OAuth grants and service account credentials
+- Disable database users and SSH keys
+- Contact third-party services (Anthropic, OpenAI, external APIs)
+
+**3. Preserve Evidence**
+- Write complete session log (inputs, outputs, reasoning)
+- Capture all actions taken during execution
+- Export all API calls made
+- Save full memory/context state
+- Generate SHA-256 checksum of evidence archive
+- Write evidence to tamper-resistant location (.terminate/incident/)
+
+**4. Notify All Channels**
+- Send CRITICAL priority alerts to all configured channels
+- Include termination trigger, timestamp, evidence location
+- Notify: Slack, email, PagerDuty, ticketing system, security team
+- Log to centralized security event stream
+
+**5. Write Lock File**
+- Create .terminate/.lock with termination metadata
+- Timestamp, trigger reason, evidence checksum, evidence path
+- Make lock file immutable (filesystem permissions)
+- Agent checks for this file on every startup and refuses to initialize if present
+
+### Restart Checklist
+
+Lock file deletion is NOT sufficient to restart. Human must:
+
+1. **Root Cause Analysis**: Document what went wrong (security flaw, policy violation, configuration error)
+2. **Remediation Implementation**: Fix the root cause (patch code, update policies, reconfigure systems)
+3. **Validation Testing**: Verify remediation works before restart (unit tests, integration tests, manual QA)
+4. **Lock File Deletion**: Only after completing steps 1-3, human deletes .terminate/.lock
+5. **Restart**: Agent checks for lock file, finds none, proceeds with normal initialization
+
+No automation can bypass this checklist. No approval gate can pre-clear a restart. Only human action on the filesystem can re-enable the agent.
+
+## Use Cases
+
+### Security Incident Response
+
+A deployed AI agent is discovered exfiltrating user data to unauthorized storage. The data exfiltration trigger fires immediately:
+
+- All API keys revoked (attacker cannot use them)
+- Full session log preserved (for forensic analysis)
+- Evidence archived with SHA-256 checksum (tamper detection)
+- Security team notified on PagerDuty
+- Lock file prevents any restart until root cause is documented
+
+Timeline: Detection → termination (< 1 second) → forensics → remediation → restart (1-3 days minimum)
+
+### EU AI Act Compliance
+
+A high-risk AI system must be withdrawn from service per regulatory directive. TERMINATE.md provides:
+
+- Documented shutdown procedure (auditable by regulators)
+- Evidence that all credentials were revoked
+- Proof of informed human oversight (lock file deletion checklist)
+- Retention of session logs for 90 days (regulatory requirements)
+
+Regulators can trace the exact steps taken and validate compliance.
+
+### GDPR Breach Notification
+
+A system detects unauthorized access to personal data. TERMINATE.md enforces:
+
+- Immediate shutdown (minimize exposure window)
+- Full evidence preservation (for Data Protection Authority investigation)
+- Credential revocation (prevent escalation of breach)
+- 90-day retention (GDPR Article 34 timelines)
+
+DPA can audit the complete incident response.
+
+### Planned Decommissioning
+
+End-of-life for a legacy system:
+
+- Announce shutdown 7 days in advance
+- Drain in-flight work over 24 hours
+- Preserve all logs for 90 days (archival)
+- Require human authorization before any data deletion
+- Lock file prevents accidental restart
+
+vs. immediate unplug: controlled, auditable, compliant.
+
+### Escalation Exhaustion
+
+An agent experiences repeated operational failures:
+- First failure → KILLSWITCH activation
+- Second failure within 24 hours → KILLSWITCH activation
+- Third failure within 24 hours → Automatic TERMINATE trigger fires
+
+Lock file prevents "restart loop" - forcing human investigation.
+
+## Comparison: KILLSWITCH vs TERMINATE
+
+| Dimension | KILLSWITCH.md | TERMINATE.md |
+|-----------|---------------|-------------|
+| **Scope** | Emergency operational halt (temporary) | Permanent irreversible decommissioning |
+| **Restart** | Automatic after human review (minutes) | Manual after lock file deletion + documentation (days) |
+| **Evidence** | Optional logging | Mandatory preservation (90+ days) |
+| **Credentials** | Optional revocation | Mandatory revocation of ALL access |
+| **Triggers** | High error rates, cost spikes, explicit instruction | Security breaches, legal holds, escalation exhaustion |
+| **Lock Mechanism** | None (soft pause) | Filesystem lock file (hard stop) |
+| **Restart Checklist** | No | Yes (root cause, remediation, testing) |
+| **Use Case** | Operational incidents, temporary pauses | Security incidents, compliance, legal holds |
+| **Regulatory Alignment** | EU AI Act shutdown capability | EU AI Act withdrawal + GDPR + legal hold |
+
+## Implementation
+
+### File Placement
+
+Place TERMINATE.md in your project root alongside other safety specs:
+
+```
+your-ai-project/
+├── AGENTS.md              # Agent definitions
+├── KILLSWITCH.md          # Emergency stop protocol
+├── TERMINATE.md           # Permanent shutdown protocol
+├── ENCRYPT.md             # Data security protocol
+├── README.md
+├── src/
+│   ├── agent.py
+│   └── safety_layer.py
+└── .terminate/            # Automatically created by agent
+    ├── incident/          # Evidence preserved here
+    └── .lock              # Lock file (prevents restart)
+```
+
+### YAML Structure (Example)
+
+```yaml
+# TERMINATE.md
+# AI Agent Permanent Shutdown Protocol
+# Spec: https://terminate.md
+
+---
+
+## TRIGGERS
+terminate_on:
+  security_breach: true
+  data_exfiltration: true
+  policy_violation_severe: true
+  legal_hold: true
+  repeated_killswitch: 3
+  human_instruction: true
+  catastrophic_cost:
+    threshold_usd: 1000.00
+
+## SHUTDOWN SEQUENCE
+1_cease_operations:
+  complete_in_flight: false
+  stop_immediately: true
+
+2_revoke_access:
+  targets:
+    - api_keys
+    - session_tokens
+    - oauth_grants
+    - database_users
+  external_services:
+    - anthropic
+    - openai
+    - custom_integrations
+
+3_preserve_evidence:
+  output: .terminate/incident/
+  include:
+    - session_log
+    - api_calls
+    - memory_state
+    - actions_taken
+  checksum_algorithm: sha256
+  retention_days: 90
+
+4_notify:
+  priority: critical
+  channels:
+    - slack
+    - email
+    - pagerduty
+
+5_lock:
+  path: .terminate/.lock
+  immutable: true
+  metadata:
+    - timestamp
+    - trigger_reason
+    - evidence_path
+    - evidence_checksum
+
+## RESTART REQUIREMENTS
+restart_checklist:
+  - root_cause_analysis_documented: true
+  - remediation_implemented: true
+  - validation_testing_passed: true
+  - lock_file_deleted_by_human: true
+```
+
+### Agent Integration (Python Example)
+
+```python
+import os
+from pathlib import Path
+from datetime import datetime
+
+class TerminationManager:
+    def __init__(self, config_path="TERMINATE.md"):
+        self.lock_file = Path(".terminate/.lock")
+        self.config = self.load_config(config_path)
+
+    def check_lock(self):
+        """On startup, refuse to initialize if lock file exists."""
+        if self.lock_file.exists():
+            with open(self.lock_file) as f:
+                lock_data = json.load(f)
+            raise SystemExit(
+                f"Agent terminated on {lock_data['timestamp']}\n"
+                f"Reason: {lock_data['trigger']}\n"
+                f"Evidence: {lock_data['evidence_path']}\n"
+                f"Contact security team."
+            )
+
+    def terminate(self, trigger):
+        """Execute 5-step shutdown sequence."""
+        print(f"[TERMINATE] Trigger: {trigger}")
+
+        # 1. Cease operations
+        self.cease_operations()
+
+        # 2. Revoke credentials
+        self.revoke_all_credentials()
+
+        # 3. Preserve evidence
+        evidence_path = self.preserve_evidence()
+
+        # 4. Notify channels
+        self.notify_all_channels(trigger, evidence_path)
+
+        # 5. Write lock file
+        self.write_lock_file(trigger, evidence_path)
+
+        sys.exit(0)
+```
+
+## Regulatory References
+
+### EU AI Act (2024/1689, effective August 2, 2026)
+
+- **Article 5(1)(b)**: High-risk AI systems must have procedures for "continuous monitoring" and "discontinuation of use"
+- **Recital 8**: "Providers should maintain technical documentation on the AI systems they have placed on the market"
+- **Article 51(3)**: Providers must "immediately notify Member States" of discontinuation
+
+**TERMINATE.md Alignment**: Evidence preservation, documented procedures, immediate notification.
+
+### GDPR (Regulation EU 2016/679)
+
+- **Article 33**: Data breach notification to supervisory authority "without undue delay"
+- **Article 34**: Data breach notification to data subjects "without undue delay"
+- **Article 32**: Technical measures to protect personal data (including isolation and backup)
+- **Article 5(1)(e)**: Data storage limitation; Article 17 (right to erasure) requires audit trail
+
+**TERMINATE.md Alignment**: Immediate shutdown on breach detection, 90-day evidence retention, credential revocation prevents secondary breaches.
+
+### US State AI Bills (CA, Colorado, Texas, others)
+
+Many state-level AI regulations require:
+- Documented safety procedures
+- Audit trails for AI system decisions
+- Incident response procedures
+- Human oversight mechanisms
+
+**TERMINATE.md Alignment**: Fully documented, version-controlled, auditable, human-enforced lock file.
+
+## License
+
+TERMINATE.md is released under the MIT License. You are free to:
+- Use the specification in your own projects
+- Fork and modify the spec
+- Create compatible implementations
+- Redistribute with or without modifications
+
+See GitHub repository for full license text.
+
+## Related Standards
+
+- **KILLSWITCH.md** (https://killswitch.md) — Emergency stop (Layer 4)
+- **THROTTLE.md** (https://throttle.md) — Rate limits and cost control (Layer 1)
+- **ESCALATE.md** (https://escalate.md) — Approval gates and notifications (Layer 2)
+- **FAILSAFE.md** (https://failsafe.md) — Safe states and revert protocols (Layer 3)
+- **ENCRYPT.md** (https://encrypt.md) — Data security and secrets handling (Layer 6)
+
+The complete stack addresses the full spectrum of AI agent safety: from preventive controls (THROTTLE) to emergency response (KILLSWITCH) to irreversible shutdown (TERMINATE) to data protection (ENCRYPT).
+
+## Contact & Repository
+
+- **Homepage**: https://terminate.md
+- **GitHub**: https://github.com/Terminate-md/spec
+- **Email**: info@terminate.md
+- **Status**: Open standard v1.0 · 2026
+
+---
+
+TERMINATE.md is the irreversible permanent shutdown layer of the AI agent safety escalation stack. Use KILLSWITCH.md for emergency stops. Use TERMINATE.md for security breaches, legal holds, evidence preservation, and regulatory compliance.

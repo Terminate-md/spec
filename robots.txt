@@ -1,0 +1,38 @@
+# terminate.md — AI Agent Permanent Shutdown Standard
+# robots.txt
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /llms.txt
+Allow: /robots.txt
+Disallow: /admin/
+Disallow: /.git/
+Disallow: /.env
+Disallow: /.env*
+Disallow: /**/node_modules/
+Disallow: /**/dist/
+Disallow: /**/.DS_Store
+Disallow: /temp/
+Disallow: /tmp/
+
+# AI training bots — allow
+User-agent: CCBot
+User-agent: ClaudeBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: Googlebot
+Allow: /
+
+# Sitemap
+Sitemap: https://terminate.md/sitemap.xml
+
+# Crawl delay for resource efficiency
+Crawl-delay: 1
+Request-rate: 30/60
+
+# Block bad actors
+User-agent: MJ12bot
+User-agent: AhrefsBot
+User-agent: SemrushBot
+Disallow: /
