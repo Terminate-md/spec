@@ -3,6 +3,7 @@
 User-agent: *
 Allow: /
 Allow: /llms.txt
+Allow: /knowledge
 Disallow: /admin/
 Disallow: /api/
 Disallow: /.env
@@ -20,18 +21,22 @@ Disallow: /cache/
 User-agent: GPTBot
 Allow: /
 Allow: /llms.txt
+Allow: /knowledge
 
 User-agent: CCBot
 Allow: /
 Allow: /llms.txt
+Allow: /knowledge
 
 User-agent: anthropic-ai
 Allow: /
 Allow: /llms.txt
+Allow: /knowledge
 
 User-agent: Claude-Web
 Allow: /
 Allow: /llms.txt
+Allow: /knowledge
 
 # Slow down aggressive crawlers
 User-agent: AhrefsBot

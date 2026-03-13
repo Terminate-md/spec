@@ -454,7 +454,7 @@
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
+      gap: 0;
       background: var(--border);
       border: 1px solid var(--border);
       border-radius: 6px;
@@ -561,8 +561,8 @@
     .stack-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
+      gap: 0;
+      background: transparent;
       border: 1px solid var(--border);
       border-radius: 6px;
       overflow: hidden;
@@ -570,6 +570,7 @@
     }
 
     .stack-item {
+      border: 1px solid var(--border);
       background: var(--black);
       padding: 32px 28px;
       position: relative;
@@ -577,6 +578,8 @@
     }
 
     .stack-item:hover { background: var(--surface2); }
+
+
 
     .stack-item.featured {
       background: var(--surface2);
@@ -1180,6 +1183,7 @@
     <ul class="footer-links">
       <li><a href="https://github.com/Terminate-md/spec" target="_blank" rel="noopener">GitHub</a></li>
       <li><a href="/llms.txt">llms.txt</a></li>
+      <li><a href="/knowledge">Knowledge</a></li>
       <li><a href="mailto:info@terminate.md">Contact</a></li>
     </ul>
     <div class="footer-note">Open standard · MIT licence · v1.0 · 2026</div>

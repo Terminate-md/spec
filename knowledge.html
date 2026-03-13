@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TERMINATE.md Knowledge Centre — AI Agent Safety Resources</title>
+  <meta name="description" content="Central resource for terminate protocols. Explore the complete TERMINATE.md specification, the AI Agent Safety Stack, and resources for implementing agent safety standards.">
+  <meta name="keywords" content="AI safety, terminate, knowledge centre, AI governance, agent safety specifications">
+  <link rel="canonical" href="https://terminate.md/knowledge">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="TERMINATE.md Knowledge Centre">
+  <meta property="og:description" content="Central resource for terminate protocols and the complete AI Agent Safety Stack.">
+  <meta property="og:url" content="https://terminate.md/knowledge">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TERMINATE.md Knowledge Centre">
+  <meta name="twitter:description" content="Central resource for terminate protocols and the complete AI Agent Safety Stack.">
+  <meta property="og:image" content="https://terminate.md/og-image.png">
+  <meta name="twitter:image" content="https://terminate.md/og-image.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Schema Markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "TERMINATE.md Knowledge Centre",
+    "description": "Central resource for terminate — specifications, guides, and the complete AI Agent Safety Stack.",
+    "url": "https://terminate.md/knowledge",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "TERMINATE.md",
+      "url": "https://terminate.md"
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://terminate.md/"},
+        {"@type": "ListItem", "position": 2, "name": "Knowledge", "item": "https://terminate.md/knowledge"}
+      ]
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --black: #080808;
+      --surface: #0f0f0f;
+      --surface2: #141414;
+      --text: #ffffff;
+      --text-dim: #a0a0a0;
+      --accent: #d50000;
+      --mono: "JetBrains Mono", monospace;
+      --sans: "IBM Plex Sans", sans-serif;
+      --green: #00c853;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--black);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--surface2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      gap: 40px;
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      text-decoration: none;
+      color: var(--text-dim);
+      transition: color 0.3s;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--accent);
+    }
+
+    .nav-cta {
+      padding: 8px 16px;
+      background: var(--accent);
+      color: var(--black) !important;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .nav-cta:hover {
+      opacity: 0.9;
+      color: var(--black) !important;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-family: var(--mono);
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+
+    .hero-title .ext { color: var(--accent); }
+
+    .hero-subtitle {
+      font-family: var(--mono);
+      font-size: 16px;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    /* Content sections */
+    section {
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    section h2 {
+      font-family: var(--mono);
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+      color: var(--accent);
+    }
+
+    section h3 {
+      font-family: var(--sans);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--text);
+    }
+
+    section p {
+      color: var(--text-dim);
+      margin-bottom: 15px;
+      line-height: 1.7;
+    }
+
+    section a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent);
+      transition: opacity 0.3s;
+    }
+
+    section a:hover {
+      opacity: 0.8;
+    }
+
+    /* About spec section */
+    .about-spec {
+      background: var(--surface);
+      border: 1px solid var(--surface2);
+      border-radius: 4px;
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    /* Stack grid */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stack-item {
+      background: var(--surface);
+      border: 1px solid var(--surface2);
+      border-radius: 4px;
+      padding: 20px;
+      transition: border-color 0.3s;
+    }
+
+    .stack-item:hover {
+      border-color: var(--accent);
+    }
+
+    .stack-item-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .stack-item-name {
+      font-family: var(--mono);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .stack-item-domain {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .stack-item-purpose {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 15px;
+    }
+
+    .stack-item-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .stack-item-links a {
+      font-size: 13px;
+      color: var(--accent);
+      border-bottom: 1px solid var(--accent);
+    }
+
+    /* Stack categories */
+    .stack-category {
+      margin-bottom: 40px;
+    }
+
+    .stack-category h3 {
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--surface2);
+    }
+
+    /* Quick links */
+    .quick-links {
+      background: var(--surface);
+      border: 1px solid var(--surface2);
+      border-radius: 4px;
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .quick-links ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .quick-links li {
+      display: flex;
+    }
+
+    .quick-links a {
+      flex: 1;
+      color: var(--accent);
+      border-bottom: 1px solid var(--accent);
+    }
+
+    /* FAQ section */
+    .faq-item {
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 4px 4px 0;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .faq-question {
+      font-family: var(--sans);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .faq-answer {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 15px;
+    }
+
+    /* Cite section */
+    .cite-box {
+      background: var(--surface);
+      border: 1px solid var(--surface2);
+      border-radius: 4px;
+      padding: 30px;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .cite-box code {
+      color: var(--green);
+    }
+
+    /* Footer */
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px;
+      background: var(--surface);
+      border-top: 1px solid var(--surface2);
+      margin-top: 60px;
+    }
+
+    .footer-logo {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .footer-logo span { color: #d50000; }
+
+    .footer-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: var(--text-dim);
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .footer-note {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .hero-title {
+        font-size: 36px;
+      }
+
+      section {
+        padding: 40px 20px;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .stack-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">TERMINATE<span>.md</span></a>
+    <ul class="nav-links">
+      <li><a href="/#what">What is it</a></li>
+      <li><a href="/#stack">The Stack</a></li>
+      <li><a href="/#spec">Spec</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+      <li><a href="/knowledge" class="active">Knowledge</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">Knowledge Centre · AI Agent Safety Stack</div>
+    <h1 class="hero-title">TERMINATE<span class="ext">.md</span><br>Knowledge<br>Centre</h1>
+    <p class="hero-subtitle">// permanent shutdown and resource cleanup</p>
+    <p style="color: var(--text-dim); font-size: 16px; margin-top: 20px; max-width: 600px;">Your centralised gateway to terminate resources, specifications, and comprehensive safety standards for autonomous systems.</p>
+  </section>
+
+  <!-- ABOUT THIS SPECIFICATION -->
+  <section>
+    <h2>About This Specification</h2>
+    <div class="about-spec">
+      <h3>TERMINATE.md — AI Agent Termination Protocol</h3>
+      <p>TERMINATE.md is a plain-text file convention that defines permanent shutdown procedures for AI agents. It specifies cleanup actions, log archival, resource deallocation, and post-mortem procedures. When an agent reaches end-of-life or must be forcefully stopped, it terminates cleanly and auditably.</p>
+      <p style="margin-top: 15px;">
+        <a href="/">View the full specification</a> ·
+        <a href="https://github.com/terminate-md/spec" target="_blank" rel="noopener">GitHub repository</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- THE AI AGENT SAFETY STACK -->
+  <section>
+    <h2>The AI Agent Safety Stack</h2>
+    <p style="margin-bottom: 30px;">Explore all 12 specifications in the complete safety framework for autonomous AI systems.</p>
+
+    <!-- Operational Control -->
+    <div class="stack-category">
+      <h3>Operational Control</h3>
+      <div class="stack-grid">
+        <div class="stack-item">
+          <div class="stack-item-header">
+            <span class="stack-item-name">KILLSWITCH.md</span>
+            <span class="stack-item-domain">killswitch.md</span>
+          </div>
+          <p class="stack-item-purpose">Emergency stop mechanism and shutdown protocols</p>
+          <div class="stack-item-links">
+            <a href="https://killswitch.md/knowledge">Knowledge Centre</a>
+            <a href="https://killswitch.md/llms.txt">llms.txt</a>
+          </div>
+        </div>
+
+        <div class="stack-item">
+          <div class="stack-item-header">
+            <span class="stack-item-name">THROTTLE.md</span>
+            <span class="stack-item-domain">throttle.md</span>
+          </div>
+          <p class="stack-item-purpose">Rate and cost control for continuous operation</p>
+          <div class="stack-item-links">
+            <a href="https://throttle.md/knowledge">Knowledge Centre</a>
+            <a href="https://throttle.md/llms.txt">llms.txt</a>
+          </div>
+        </div>
+
+        <div class="stack-item">
+          <div class="stack-item-header">
+            <span class="stack-item-name">ESCALATE.md</span>
+            <span class="stack-item-domain">escalate.md</span>
+          </div>
+          <p class="stack-item-purpose">Human notification and approval workflows</p>
+          <div class="stack-item-links">
+            <a href="https://escalate.md/knowledge">Knowledge Centre</a>
+            <a href="https://escalate.md/llms.txt">llms.txt</a>
+          </div>
+        </div>
+
+        <div class="stack-item">
+          <div class="stack-item-header">
+            <span class="stack-item-name">FAILSAFE.md</span>
+            <span class="stack-item-domain">failsafe.md</span>
+          </div>
+          <p class="stack-item-purpose">Safe fallback modes when systems fail</p>
+          <div class="stack-item-links">
+            <a href="https://failsafe.md/knowledge">Knowledge Centre</a>
+            <a href="https://failsafe.md/llms.txt">llms.txt</a>
+          </div>
+        </div>
+
+        <div class="stack-item">
+          <div class="stack-item-header">
+            <span class="stack-item-name">TERMINATE.md</span>
+            <span class="stack-item-domain">terminate.md</span>
+          </div>
+          <p class="stack-item-purpose">Permanent shutdown and resource cleanup</p>
+          <div class="stack-item-links">
+            <a href="https://terminate.md/knowledge">Knowledge Centre</a>
+            <a href="https://terminate.md/llms.txt">llms.txt</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Security -->
+    <div class="stack-category">
+      <h3>Data Security</h3>
+      <div class="stack-grid">
+        <div class="stack-item">
+          <div class="stack-item-header">
+            <span class="stack-item-name">ENCRYPT.md</span>
+            <span class="stack-item-domain">encrypt.md</span>
+          </div>
+          <p class="stack-item-purpose">Data classification and protection policies</p>
+          <div class="stack-item-links">
+            <a href="https://encrypt.md/knowledge">Knowledge Centre</a>
+            <a href="https://encrypt.md/llms.txt">llms.txt</a>
+          </div>
+        </div>
+
+        <div class="stack-item">
+          <div class="stack-item-header">
+            <span class="stack-item-name">ENCRYPTION.md</span>
+            <span class="stack-item-domain">encryption.md</span>
+          </div>
+          <p class="stack-item-purpose">Cryptographic standards and implementation</p>
+          <div class="stack-item-links">
+            <a href="https://encryption.md/knowledge">Knowledge Centre</a>
+            <a href="https://encryption.md/llms.txt">llms.txt</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Output Quality -->
+    <div class="stack-category">
+      <h3>Output Quality</h3>
+      <div class="stack-grid">
+        <div class="stack-item">
+          <div class="stack-item-header">
+            <span class="stack-item-name">SYCOPHANCY.md</span>
+            <span class="stack-item-domain">sycophancy.md</span>
+          </div>
+          <p class="stack-item-purpose">Anti-sycophancy and truthfulness guardrails</p>
+          <div class="stack-item-links">
+            <a href="https://sycophancy.md/knowledge">Knowledge Centre</a>
+            <a href="https://sycophancy.md/llms.txt">llms.txt</a>
+          </div>
+        </div>
+
+        <div class="stack-item">
+          <div class="stack-item-header">
+            <span class="stack-item-name">COMPRESSION.md</span>
+            <span class="stack-item-domain">compression.md</span>
+          </div>
+          <p class="stack-item-purpose">Context compression and token optimisation</p>
+          <div class="stack-item-links">
+            <a href="https://compression.md/knowledge">Knowledge Centre</a>
+            <a href="https://compression.md/llms.txt">llms.txt</a>
+          </div>
+        </div>
+
+        <div class="stack-item">
+          <div class="stack-item-header">
+            <span class="stack-item-name">COLLAPSE.md</span>
+            <span class="stack-item-domain">collapse.md</span>
+          </div>
+          <p class="stack-item-purpose">Drift prevention and behaviour alignment</p>
+          <div class="stack-item-links">
+            <a href="https://collapse.md/knowledge">Knowledge Centre</a>
+            <a href="https://collapse.md/llms.txt">llms.txt</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accountability -->
+    <div class="stack-category">
+      <h3>Accountability</h3>
+      <div class="stack-grid">
+        <div class="stack-item">
+          <div class="stack-item-header">
+            <span class="stack-item-name">FAILURE.md</span>
+            <span class="stack-item-domain">failure.md</span>
+          </div>
+          <p class="stack-item-purpose">Failure mode mapping and incident response</p>
+          <div class="stack-item-links">
+            <a href="https://failure.md/knowledge">Knowledge Centre</a>
+            <a href="https://failure.md/llms.txt">llms.txt</a>
+          </div>
+        </div>
+
+        <div class="stack-item">
+          <div class="stack-item-header">
+            <span class="stack-item-name">LEADERBOARD.md</span>
+            <span class="stack-item-domain">leaderboard.md</span>
+          </div>
+          <p class="stack-item-purpose">Agent benchmarking and performance transparency</p>
+          <div class="stack-item-links">
+            <a href="https://leaderboard.md/knowledge">Knowledge Centre</a>
+            <a href="https://leaderboard.md/llms.txt">llms.txt</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK LINKS -->
+  <section>
+    <h2>Quick Links</h2>
+    <div class="quick-links">
+      <ul>
+        <li><a href="/">Full Specification</a></li>
+        <li><a href="https://github.com/terminate-md/spec" target="_blank" rel="noopener">GitHub Repository</a></li>
+        <li><a href="/llms.txt">llms.txt</a></li>
+        <li><a href="/llms-full.txt">llms-full.txt</a></li>
+        <li><a href="/robots.txt">robots.txt</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ PREVIEW -->
+  <section>
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-question">What is TERMINATE.md?</div>
+      <div class="faq-answer">TERMINATE.md is a plain-text file convention that defines permanent shutdown procedures for AI agents. It specifies cleanup actions, log archival, resource deallocation, and post-mortem procedures. When an agent reaches end-of-life or must be forcefully stopped, it terminates cleanly and auditably.</div>
+      <a href="/">View all FAQs</a>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How does TERMINATE.md fit in the AI Agent Safety Stack?</div>
+      <div class="faq-answer">TERMINATE.md is one of 12 complementary specifications that together form a complete safety framework for AI agents. Each spec covers a distinct aspect: operational control, data security, output quality, and accountability. They work together to ensure agents operate safely, transparently, and within defined boundaries.</div>
+      <a href="/">View all FAQs</a>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Is TERMINATE.md framework-agnostic?</div>
+      <div class="faq-answer">Yes. TERMINATE.md is framework and language-agnostic. It defines the policy and requirements; your agent implementation enforces it. Works with LangChain, AutoGen, CrewAI, Claude Code, custom agents, or any AI system that can read configuration files.</div>
+      <a href="/">View all FAQs</a>
+    </div>
+  </section>
+
+  <!-- HOW TO CITE -->
+  <section>
+    <h2>How to Cite</h2>
+    <div class="cite-box">
+      Cite as: TERMINATE.md (2026). AI Agent Termination Protocol. Retrieved from <code>https://terminate.md/</code><br><br>
+      For attribution: Organisation: <code>terminate-md</code> | Website: <code>https://terminate.md</code> | Licence: <code>MIT</code>
+    </div>
+  </section>
+
+  <!-- LAST UPDATED -->
+  <section style="padding: 40px; text-align: center; color: var(--text-dim); border-top: 1px solid var(--surface2);">
+    <p>Last updated: 13 March 2026</p>
+  </section>
+
+  <footer>
+    <div class="footer-logo">TERMINATE<span>.md</span></div>
+    <ul class="footer-links">
+      <li><a href="https://github.com/terminate-md/spec" target="_blank" rel="noopener">github</a></li>
+      <li><a href="/llms.txt">llms.txt</a></li>
+      <li><a href="/knowledge">Knowledge</a></li>
+      <li><a href="mailto:info@terminate.md">Contact</a></li>
+    </ul>
+    <div class="footer-note">Open standard · MIT licence · v1.0 · 2026</div>
+  </footer>
+
+</body>
+</html>
